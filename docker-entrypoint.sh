@@ -10,6 +10,7 @@ if [ ! -e '/var/www/html/version.php' ]; then
     su www-data -c "/var/www/html/occ app:enable user_external"
     su www-data -c "/var/www/html/occ config:system:set user_backends 0 class --value \"OC_User_IMAP\""
     su www-data -c "/var/www/html/occ config:system:set user_backends 0 arguments 0 --value {dovecot:993/imap/ssl/novalidate-cert}"
+    ln -s /dev/stderr /var/www/html/data/nextcloud.log
 fi
 
 exec "$@"
