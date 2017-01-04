@@ -1,4 +1,4 @@
-FROM nextcloud:11
+FROM gorlug/nextcloud:11
 MAINTAINER Achim Rohn <achim@rohn.eu>
 
 RUN apt-get update && apt-get install -y \
