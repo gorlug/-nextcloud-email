@@ -5,6 +5,9 @@ if [ ! -e '/var/www/html/version.php' ]; then
     tar cf - --one-file-system -C /usr/src/nextcloud . | tar xf -
     chown -R www-data /var/www/html
     chmod +x /var/www/html/occ
+    su www-data -c "/var/www/html/occ maintenance:mode --on"
+    su www-data -c "/var/www/html/occ upgrade -n --no-app-disable --no-warnings" || true
+    su www-data -c "/var/www/html/occ maintenance:mode --off"
 fi
 if [ ! -e '/var/www/html/config/config.php' ]; then
     echo "waiting for database connection"
@@ -20,4 +23,4 @@ if [ ! -e '/var/www/html/config/config.php' ]; then
     ln -s /dev/stderr /var/www/html/data/nextcloud.log
 fi
 
-exec "$@"
+php-fpm

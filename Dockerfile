@@ -1,4 +1,4 @@
-FROM gorlug/nextcloud:11
+FROM gorlug/nextcloud:11.0.1
 MAINTAINER Achim Rohn <achim@rohn.eu>
 
 RUN apt-get update && apt-get install -y \
@@ -13,4 +13,3 @@ RUN usermod -s /bin/bash www-data && sed -i 's/pm.max_children = 5/pm.max_childr
 COPY docker-entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["php-fpm"]
