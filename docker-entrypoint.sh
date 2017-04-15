@@ -8,6 +8,7 @@ else
     ls /var/www/html | grep -v "data" | grep -v "config" | grep -v "apps" | xargs rm -rf
     rm -f /var/www/html/.htaccess
     rm -f /var/www/html/.user.ini
+    rm /var/www/html/apps/logreader/webpack/dev-proxy.js
 fi
 
 if [ ! -e '/var/www/html/version.php' ]; then
