@@ -1,6 +1,16 @@
 #!/bin/bash
 set -e
 
+if cmp -s "/usr/src/nextcloud/version.php" "/var/www/html/version.php"
+then
+    echo "nothing to do here"
+else
+    ls /var/www/html | grep -v "data" | grep -v "config" | grep -v "apps" | xargs rm -rf
+    rm -f /var/www/html/.htaccess
+    rm -f /var/www/html/.user.ini
+    rm /var/www/html/apps/logreader/webpack/dev-proxy.js
+fi
+
 if [ ! -e '/var/www/html/version.php' ]; then
     tar cf - --one-file-system -C /usr/src/nextcloud . | tar xf -
     chown -R www-data /var/www/html
@@ -18,6 +28,8 @@ if [ ! -e '/var/www/html/config/config.php' ]; then
     su www-data -c "/var/www/html/occ config:system:set overwritewebroot --value /cloud"
     rm /var/www/html/data/nextcloud.log
     ln -s /dev/stderr /var/www/html/data/nextcloud.log
+else
+    su www-data -c "/var/www/html/occ upgrade -n --no-app-disable --no-warnings" || true
 fi
 
-exec "$@"
+php-fpm
